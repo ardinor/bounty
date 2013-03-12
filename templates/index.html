@@ -5,4 +5,8 @@
 {% block body %}
 <h1>Welcome</h1>
 <p>Welcome to Bounty, the crowd source funding platform of the Australia Pirate Party.</p>
+<h2>Recently launched Fundraisers<h2>
+{% for fundraiser in recent %}
+    {{ fundraiser['title'] }}
+{% end %}
 {% end %}

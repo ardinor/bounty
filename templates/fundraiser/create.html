@@ -1,0 +1,12 @@
+{% extends "../base.html" %}
+
+{% block body %}
+<form method='post'>
+    <legend>New Fundraiser</legend>
+    <p><label>Title <input type='text' name='title' placeholder='Title'><label></p>
+    <p><label>Goal <input type='number' name='goal'><label></p>
+    <p><label>Deadline <input type='datetime' name='deadline'><label></p>
+    <p><label>Description <input type='text' name='description'><label></p>
+    <input type='submit'>
+</form>
+{% end %}
