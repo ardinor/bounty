@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from tornado.web import HTTPError
 import datetime
+import json
+import unicodedata
+import re
 
 from base import BaseHandler
 
@@ -26,6 +29,10 @@ class FundraiserCreateHandler(FundraiserBase):
         goal = self.get_argument('goal', None)
         deadline = self.get_argument('deadline', None)
         description = self.get_argument('description', None)
+
+        slug = unicodedata.normalize('NFKD', slug).encode('ascii', 'ignore')
+        slug = re.sub(r'[^\w]+', ' ', slug)
+        slug = slug.replace(' ', '_').lower().strip()
 
         fundraiser = {'title': title, 'slug': slug,
                       'goal': goal, 'deadline': deadline,
@@ -69,5 +76,16 @@ class FundraiserDetailHandler(FundraiserBase):
         if fundraiser:
             self.render('fundraiser/detail.html',
                         fundraiser=fundraiser)
+        else:
+            raise HTTPError(404)
+
+
+class FundraiserDetailJSONHandler(FundraiserBase):
+
+    def get(self, fundraiser_slug):
+        fundraiser = self.fundraisers.find_one({'slug': fundraiser_slug})
+        if fundraiser:
+            self.set_header('Content-Type', 'application/json')
+            self.write(json.dumps(fundraiser))
         else:
             raise HTTPError(404)

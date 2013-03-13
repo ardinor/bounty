@@ -5,7 +5,7 @@ import tornado.web
 import tornado.options
 import tornado.httpserver
 
-import pymongo
+#import pymongo
 import os
 
 from admin import AdminHandler
@@ -13,9 +13,7 @@ from base import BaseHandler
 from fundraiser import FundraiserCreateHandler
 from fundraiser import FundraiserEditHandler
 from fundraiser import FundraiserDetailHandler
-
-
-
+from fundraiser import FundraiserDetailJSONHandler
 
 
 class IndexHandler(BaseHandler):
@@ -47,6 +45,7 @@ class Application(tornado.web.Application):
                     (r'/fundraiser/create', FundraiserCreateHandler),
                     (r'/fundraiser/([^/]+)/edit', FundraiserEditHandler),
                     (r'/fundraiser/([^/]+)', FundraiserDetailHandler),
+                    (r'/fundraiser/([^/]+).json', FundraiserDetailJSONHandler),
                    ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), 'templates'),
