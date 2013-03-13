@@ -7,6 +7,6 @@
 <p>Welcome to Bounty, the crowd source funding platform of the Australia Pirate Party.</p>
 <h2>Recently launched Fundraisers<h2>
 {% for fundraiser in recent %}
-    {{ fundraiser['title'] }}
+    <h2><a href="/fundraiser/{{fundraiser['slug']}}">{{ fundraiser['title'] }}</a></h2>
 {% end %}
 {% end %}

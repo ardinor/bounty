@@ -9,8 +9,30 @@ import pymongo
 import os
 
 from admin import AdminHandler
+from base import BaseHandler
 from fundraiser import FundraiserCreateHandler
 from fundraiser import FundraiserEditHandler
+from fundraiser import FundraiserDetailHandler
+
+
+
+
+
+class IndexHandler(BaseHandler):
+
+    def get(self):
+        recent = self.db.fundraisers.find().sort('-launched').limit(15)
+        self.render('index.html', recent=recent)
+
+
+class LoginHandler(tornado.web.RequestHandler):
+
+    def get(self):
+        self.render('login.html')
+
+
+class LogoutHandler(tornado.web.RequestHandler):
+    pass
 
 
 class Application(tornado.web.Application):
@@ -24,39 +46,18 @@ class Application(tornado.web.Application):
                     (r'/admin', AdminHandler),
                     (r'/fundraiser/create', FundraiserCreateHandler),
                     (r'/fundraiser/([^/]+)/edit', FundraiserEditHandler),
-                 ]
+                    (r'/fundraiser/([^/]+)', FundraiserDetailHandler),
+                   ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), 'templates'),
             static_path=os.path.join(os.path.dirname(__file__), 'static'),
             debug=True,
+            xsrf_cookies=True,
+            cookie_secret='SECRET_KEY_HERE',
+            login_url='/login',
             )
 
         tornado.web.Application.__init__(self, handlers, **settings)
-
-
-class BaseHandler(tornado.web.RequestHandler):
-
-    @property
-    def db(self):
-        conn = pymongo.Connection()
-        db = conn.bounty
-        return db
-
-
-class IndexHandler(BaseHandler):
-
-    def get(self):
-        recent = self.db.fundraisers.find().sort('-launched').limit(15)
-        self.render('index.html', recent=recent)
-
-
-class LoginHandler(tornado.web.RequestHandler):
-    pass
-
-
-class LogoutHandler(tornado.web.RequestHandler):
-    pass
-
 
 if __name__ == '__main__':
 
