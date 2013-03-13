@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <title>{% block title %}Bounty{% end %}</title>
     <link rel="stylesheet" href="{{ static_url("css/vendor/bootstrap.min.css") }}" type="text/css">
@@ -6,7 +7,9 @@
     <script type="text/javascript" src="{{ static_url("js/vendor/bootstrap.min.js") }}"></script>
   </head>
   <body>
+    <div class="container">
     {% block body %}
     {% end %}
+    </div>
   </body>
 </html>

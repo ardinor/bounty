@@ -9,17 +9,17 @@ Each project will have:
 
     Admin?
 
-    Goal
+    Goal √
 
-    Launched
+    Launched √
 
-    Deadline
+    Deadline √
 
-    Current funding
+    Current funding √
 
-    Number of backers/sponsors
+    Number of backers/sponsors √
 
-    Description
+    Description √
 
     Backer rewards?
 

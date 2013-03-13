@@ -1,13 +1,30 @@
-{% extends "../base.html" %}
+{% extends '../base.html' %}
 
 {% block body %}
-<form method='post' action=''>
-    {% raw xsrf_form_html() %}
-    <legend>New Fundraiser</legend>
-    <p><label>Title <input type='text' name='title' placeholder='Title'><label></p>
-    <p><label>Goal <input type='number' name='goal'><label></p>
-    <p><label>Deadline <input type='datetime' name='deadline'><label></p>
-    <p><label>Description <input type='text' name='description'><label></p>
-    <input type='submit' value='Submit Fundraiser' class='button'>
-</form>
+<div class='row'>
+    <div class='span6 offset2'>
+        <form class='form' method='post' action=''>
+            {% raw xsrf_form_html() %}
+            <legend>New Fundraiser</legend>
+            <div>
+                <label>Title</label>
+                <input type='text' name='title' {% if fundraiser and fundraiser['title'] %}value="{{ fundraiser['title'] }}"{% end %} placeholder='Example Title' required>
+                <label>Slug</label>
+                <input type='text' name='slug' placeholder='example_slug' required>
+                <label>Goal</label>
+                <div class='input-prepend'>
+                    <span class='add-on'>$</span>
+                    <input type='number' name='goal' required>
+                </div>
+                <label>Deadline</label>
+                <input type='datetime' name='deadline' required>
+                <label>Description</label>
+                <textarea class="span5" rows="8" name='description' required></textarea>
+            </div>
+            <div class='form-actions'>
+                <button type='submit' class='btn btn-primary'>Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
 {% end %}
