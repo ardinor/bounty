@@ -85,7 +85,8 @@ class FundraiserDetailJSONHandler(FundraiserBase):
     def get(self, fundraiser_slug):
         fundraiser = self.fundraisers.find_one({'slug': fundraiser_slug})
         if fundraiser:
+            datetime_handler = lambda obj: obj.isoformat() if isinstance(obj, datetime.datetime) else None
             self.set_header('Content-Type', 'application/json')
-            self.write(json.dumps(fundraiser))
+            self.write(json.dumps(fundraiser, default=datetime_handler))
         else:
             raise HTTPError(404)

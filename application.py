@@ -45,7 +45,7 @@ class Application(tornado.web.Application):
                     (r'/fundraiser/create', FundraiserCreateHandler),
                     (r'/fundraiser/([^/]+)/edit', FundraiserEditHandler),
                     (r'/fundraiser/([^/]+)', FundraiserDetailHandler),
-                    (r'/fundraiser/([^/]+).json', FundraiserDetailJSONHandler),
+                    (r'/fundraiser/([^/]+)/json', FundraiserDetailJSONHandler),
                    ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), 'templates'),
