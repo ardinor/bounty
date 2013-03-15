@@ -82,7 +82,7 @@ class FundraiserDeleteHandler(FundraiserBase):
         fundraiser = self.fundraisers.find_one({'slug': fundraiser_slug})
         if fundraiser:
             self.fundraisers.remove(fundraiser)
-            self.redirect('/')
+            self.redirect('/admin')
         else:
             raise HTTPError(404)
 

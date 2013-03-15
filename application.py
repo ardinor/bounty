@@ -8,8 +8,13 @@ import tornado.httpserver
 #import pymongo
 import os
 
+#Admin views
 from admin import AdminHandler
+from admin import AdminFundraiserHandler
+
 from base import BaseHandler
+
+#Fundraiser views
 from fundraiser import FundraiserIndexHandler
 from fundraiser import FundraiserCreateHandler
 from fundraiser import FundraiserEditHandler

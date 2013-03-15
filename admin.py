@@ -22,7 +22,7 @@ class AdminFundraiserHandler(AdminBase):
     def get(self, fundraiser_slug):
         fundraiser = self.fundraisers.find_one({'slug': fundraiser_slug})
         if fundraiser:
-            self.render('admin/edit_fundraiser.html',
+            self.render('admin/fundraiser.html',
                         fundraiser=fundraiser)
         else:
             raise HTTPError(404)
