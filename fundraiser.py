@@ -16,6 +16,13 @@ class FundraiserBase(BaseHandler):
         return fundraisers
 
 
+class FundraiserIndexHandler(FundraiserBase):
+
+    def get(self):
+        recent = self.fundraisers.find().sort('-launched').limit(30)
+        self.render('index.html', recent=recent)
+
+
 class FundraiserCreateHandler(FundraiserBase):
 
     def get(self):
@@ -65,6 +72,17 @@ class FundraiserEditHandler(FundraiserBase):
         if fundraiser:
             self.render('fundraiser/detail.html',
                         fundraiser=fundraiser)
+        else:
+            raise HTTPError(404)
+
+
+class FundraiserDeleteHandler(FundraiserBase):
+
+    def get(self, fundraiser_slug):
+        fundraiser = self.fundraisers.find_one({'slug': fundraiser_slug})
+        if fundraiser:
+            self.fundraisers.remove(fundraiser)
+            self.redirect('/')
         else:
             raise HTTPError(404)
 

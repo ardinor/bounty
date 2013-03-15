@@ -1,6 +1,28 @@
 # -*- coding: utf-8 -*-
-import tornado.web
+from base import BaseHandler
 
 
-class AdminHandler(tornado.web.RequestHandler):
-    pass
+class AdminBase(BaseHandler):
+
+    @property
+    def fundraisers(self):
+        fundraisers = self.db.fundraisers
+        return fundraisers
+
+
+class AdminHandler(AdminBase):
+
+    def get(self):
+        recent = self.fundraisers.find().sort('-launched').limit(30)
+        self.render('admin/admin.html', recent=recent)
+
+
+class AdminFundraiserHandler(AdminBase):
+
+    def get(self, fundraiser_slug):
+        fundraiser = self.fundraisers.find_one({'slug': fundraiser_slug})
+        if fundraiser:
+            self.render('admin/edit_fundraiser.html',
+                        fundraiser=fundraiser)
+        else:
+            raise HTTPError(404)

@@ -10,8 +10,10 @@ import os
 
 from admin import AdminHandler
 from base import BaseHandler
+from fundraiser import FundraiserIndexHandler
 from fundraiser import FundraiserCreateHandler
 from fundraiser import FundraiserEditHandler
+from fundraiser import FundraiserDeleteHandler
 from fundraiser import FundraiserDetailHandler
 from fundraiser import FundraiserDetailJSONHandler
 
@@ -42,8 +44,11 @@ class Application(tornado.web.Application):
                     (r'/login', LoginHandler),
                     (r'/logout', LogoutHandler),
                     (r'/admin', AdminHandler),
+                    (r'/admin/fundraiser/([^/]+)', AdminFundraiserHandler),
+                    (r'/fundraiser', FundraiserIndexHandler),
                     (r'/fundraiser/create', FundraiserCreateHandler),
                     (r'/fundraiser/([^/]+)/edit', FundraiserEditHandler),
+                    (r'/fundraiser/([^/]+)/delete', FundraiserDeleteHandler),
                     (r'/fundraiser/([^/]+)', FundraiserDetailHandler),
                     (r'/fundraiser/([^/]+)/json', FundraiserDetailJSONHandler),
                    ]
