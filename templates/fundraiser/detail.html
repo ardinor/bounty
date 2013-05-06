@@ -12,6 +12,7 @@
         <p>Current Funding: {{ fundraiser['current_funding'] }}</p>
         <p>Backing: {{ fundraiser['backers_count'] }}</p>
         <p>{{ fundraiser['description'] }}</p>
-    </div>
+		<h4><a href="/fundraiser/back/{{fundraiser['slug']}}">Back this Fundraiser</a></h4>
+	</div>
 </div>
 {% end %}

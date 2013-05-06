@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from tornado.web import HTTPError
+#from tornado.httpserver import HTTPParseBody
+from tornado.escape import json_decode
 import datetime
 import json
 import unicodedata
@@ -96,6 +98,49 @@ class FundraiserDetailHandler(FundraiserBase):
                         fundraiser=fundraiser)
         else:
             raise HTTPError(404)
+
+
+class FundraiserBackHandler(FundraiserBase):
+
+    def get(self, fundraiser_slug):
+        fundraiser = self.fundraisers.find_one({'slug': fundraiser_slug})
+        if fundraiser:
+            self.render('fundraiser/back.html',
+                        fundraiser=fundraiser)
+        else:
+            raise HTTPError(404)
+
+
+# class FundraiserBackResponseHandler(HTTPParseBody):
+
+#     def __call__(self):
+#         self.stream.read_bytes(self.content_length, self.parse_json)
+
+#     def parse_json(self, data):
+#         print data
+#         try:
+#             json_data = json.loads(data)
+#         except ValueError:
+#             raise tornado.httpserver._BadRequestException(
+#                 "Invalid JSON structure."
+#             )
+#         if type(json_data) != dict:
+#             raise tornado.httpserver._BadRequestException(
+#                 "We only accept key value objects!"
+#             )
+#         for key, value in json_data.iteritems():
+#             self.request.arguments[key] = [value,]
+#             self.done()
+class FundraiserBackResponseHandler(FundraiserBase):
+
+    def prepare(self):
+        if self.request.headers.get("Content-Type") == "application/json":
+            self.json_args = json_decode(self.request.body)
+
+    def post(self):
+
+        #self.json_args.get("foo")
+        self.write(self.json_args)
 
 
 class FundraiserDetailJSONHandler(FundraiserBase):
