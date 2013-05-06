@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from tornado.web import HTTPError
-#from tornado.httpserver import HTTPParseBody
 from tornado.escape import json_decode
 import datetime
 import json
 import unicodedata
 import re
+import logging
 
 from base import BaseHandler
 
@@ -92,6 +92,7 @@ class FundraiserDeleteHandler(FundraiserBase):
 class FundraiserDetailHandler(FundraiserBase):
 
     def get(self, fundraiser_slug):
+        logging.info('Detail')
         fundraiser = self.fundraisers.find_one({'slug': fundraiser_slug})
         if fundraiser:
             self.render('fundraiser/detail.html',
@@ -110,37 +111,14 @@ class FundraiserBackHandler(FundraiserBase):
         else:
             raise HTTPError(404)
 
-
-# class FundraiserBackResponseHandler(HTTPParseBody):
-
-#     def __call__(self):
-#         self.stream.read_bytes(self.content_length, self.parse_json)
-
-#     def parse_json(self, data):
-#         print data
-#         try:
-#             json_data = json.loads(data)
-#         except ValueError:
-#             raise tornado.httpserver._BadRequestException(
-#                 "Invalid JSON structure."
-#             )
-#         if type(json_data) != dict:
-#             raise tornado.httpserver._BadRequestException(
-#                 "We only accept key value objects!"
-#             )
-#         for key, value in json_data.iteritems():
-#             self.request.arguments[key] = [value,]
-#             self.done()
-class FundraiserBackResponseHandler(FundraiserBase):
-
-    def prepare(self):
-        if self.request.headers.get("Content-Type") == "application/json":
-            self.json_args = json_decode(self.request.body)
-
-    def post(self):
+    def post(self, fundraiser_slug):
 
         #self.json_args.get("foo")
-        self.write(self.json_args)
+        #self.write(self.json_args)
+        card_token = self.get_argument('card_token', None)
+        ip_address = self.get_argument('ip_address', None)
+        self.set_header('Content-Type', 'application/json')
+        self.write(json.dumps({'card': card_token, 'ip': ip_address}))
 
 
 class FundraiserDetailJSONHandler(FundraiserBase):

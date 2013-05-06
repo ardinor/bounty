@@ -8,6 +8,8 @@ import tornado.httpserver
 #import pymongo
 import os
 
+import logging
+
 #Admin views
 from admin import AdminHandler
 from admin import AdminFundraiserHandler
@@ -21,7 +23,6 @@ from fundraiser import FundraiserEditHandler
 from fundraiser import FundraiserDeleteHandler
 from fundraiser import FundraiserDetailHandler
 from fundraiser import FundraiserBackHandler
-from fundraiser import FundraiserBackResponseHandler
 from fundraiser import FundraiserDetailJSONHandler
 
 
@@ -58,7 +59,6 @@ class Application(tornado.web.Application):
                     (r'/fundraiser/([^/]+)/delete', FundraiserDeleteHandler),
                     (r'/fundraiser/([^/]+)', FundraiserDetailHandler),
                     (r'/fundraiser/back/([^/]+)', FundraiserBackHandler),
-                    (r'/fundraiser/response', FundraiserBackResponseHandler),
                     (r'/fundraiser/([^/]+)/json', FundraiserDetailJSONHandler),
                    ]
         settings = dict(
@@ -76,5 +76,6 @@ if __name__ == '__main__':
 
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(Application())
+    logging.info('Starting up')
     http_server.listen(8888)
     tornado.ioloop.IOLoop.instance().start()
