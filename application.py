@@ -23,6 +23,7 @@ from fundraiser import FundraiserEditHandler
 from fundraiser import FundraiserDeleteHandler
 from fundraiser import FundraiserDetailHandler
 from fundraiser import FundraiserBackHandler
+from fundraiser import FundraiserBackSuccessHandler
 from fundraiser import FundraiserDetailJSONHandler
 
 
@@ -59,6 +60,7 @@ class Application(tornado.web.Application):
                     (r'/fundraiser/([^/]+)/delete', FundraiserDeleteHandler),
                     (r'/fundraiser/([^/]+)', FundraiserDetailHandler),
                     (r'/fundraiser/back/([^/]+)', FundraiserBackHandler),
+                    (r'/fundraiser/([^/]+)/success', FundraiserBackSuccessHandler),
                     (r'/fundraiser/([^/]+)/json', FundraiserDetailJSONHandler),
                    ]
         settings = dict(

@@ -115,10 +115,32 @@ class FundraiserBackHandler(FundraiserBase):
 
         #self.json_args.get("foo")
         #self.write(self.json_args)
-        card_token = self.get_argument('card_token', None)
-        ip_address = self.get_argument('ip_address', None)
-        self.set_header('Content-Type', 'application/json')
-        self.write(json.dumps({'card': card_token, 'ip': ip_address}))
+        fundraiser = self.fundraisers.find_one({'slug': fundraiser_slug})
+        if fundraiser:
+            fundraiser_id = fundraiser['_id']
+            card_token = self.get_argument('card_token', None)
+            ip_address = self.get_argument('ip_address', None)
+            amount = self.get_argument('amount', None)
+            fundraiser['current_funding'] = fundraiser['current_funding'] + int(amount)
+            fundraiser['backers_count'] += 1
+            self.fundraisers.save(fundraiser)
+            #self.set_header('Content-Type', 'application/json')
+            #self.write(json.dumps({'card': card_token, 'ip': ip_address, 'amount': amount}))
+            self.redirect('/fundraiser/{}/success'.format(fundraiser_slug))
+        else:
+            raise HTTPError(404)
+
+
+class FundraiserBackSuccessHandler(FundraiserBase):
+
+    def get(self, fundraiser_slug):
+        fundraiser = self.fundraisers.find_one({'slug': fundraiser_slug})
+        if fundraiser:
+            self.render('fundraiser/detail.html',
+                        fundraiser=fundraiser,
+                        success=True)
+        else:
+            raise HTTPError(404)
 
 
 class FundraiserDetailJSONHandler(FundraiserBase):
