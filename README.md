@@ -1,31 +1,7 @@
 ﻿Bounty
 ================================
 
-Not much here yet.
+Moved to the ppau repo
 
-TO DO:
-
-Each project will have:
-
-    Admin?
-
-    Goal √
-
-    Launched √
-
-    Deadline √
-
-    Current funding √
-
-    Number of backers/sponsors √
-
-    Description √
-
-    Backer rewards?
-
-    Can have updates?
-
-    Allow comments?
-
-    Categories?
+https://github.com/ppau/bounty
 
