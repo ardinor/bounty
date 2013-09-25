@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% end %}
+
+{% block body %}
+<div class="span3 offset4">
+        {% if error %}
+        <p>{{ error }}</p>
+        {% end %}
+        <form class='' method='post' action=''>
+            {% module xsrf_form_html() %}
+            <label>Username</label>
+            <input type='text' name='username' required>
+            <label>Password</label>
+            <input type='password' name='password' required>
+            <div class='form-actions'>
+                <button type='submit' class='btn btn-primary'>Submit</button>
+            </div>
+        </form>
+</div>
+{% end %}

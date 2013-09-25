@@ -1,27 +1,56 @@
 {% extends '../base.html' %}
 
-{% block title %}Create a new Fundraiser{% end %}
+{% block title %}Create a new Fundraiser - Bounty{% end %}
 
 {% block body %}
 <div class='row'>
     <div class='span6 offset2'>
-        <form class='form' method='post' action=''>
-            {% raw xsrf_form_html() %}
+        <form class='create_fundraiser' method='post' action=''>
+            {% module xsrf_form_html() %}
             <legend>New Fundraiser</legend>
             <div>
                 <label>Title</label>
                 <input type='text' name='title' {% if fundraiser and fundraiser['title'] %}value="{{ fundraiser['title'] }}"{% end %} placeholder='Example Title' required>
                 <label>Slug</label>
                 <input type='text' name='slug' placeholder='example_slug' required>
+                <label>Type of Fundraiser</label>
+                <select name='fundraiser_type' required>
+                  <option>Fundraiser</option>
+                  <option>Group Purchase</option>
+                  <option>Petition</option>
+                </select>
+                <label>Template</label>
+                <select name='template' required>
+                 {% for i in template_list %}
+                  <option>{{ i }}</option>
+                 {% end %}
+                </select>
                 <label>Goal</label>
                 <div class='input-prepend'>
                     <span class='add-on'>$</span>
                     <input type='number' name='goal' required>
                 </div>
                 <label>Deadline</label>
-                <input type='datetime' name='deadline' required>
-                <label>Description</label>
-                <textarea class="span5" rows="8" name='description' required></textarea>
+                <div id="datetimepicker1" name='deadline' class="input-append date">
+                    <input data-format="dd/MM/yyyy" type="text"></input>
+                    <span class="add-on">
+                        <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                        </i>
+                    </span>
+                </div>
+                <input type='text' id='deadline' name='deadline' style="display:none">
+                <!-- <label>Description</label>
+                <textarea class="span5" rows="8" name='description' required></textarea> -->
+                <div>
+                    <label class="radio inline">
+                        <input type="radio" name="statusRadios" id="statusRadios1" value="Live" checked>
+                        Live
+                    </label>
+                    <label class="radio inline">
+                        <input type="radio" name="statusRadios" id="statusRadios2" value="Draft">
+                        Draft
+                    </label>
+                </div>
             </div>
             <div class='form-actions'>
                 <button type='submit' class='btn btn-primary'>Submit</button>

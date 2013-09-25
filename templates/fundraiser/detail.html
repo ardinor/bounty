@@ -6,12 +6,22 @@
 <div class="row">
     <div class="span6 offset2">
         <h2>{{ fundraiser['title'] }}</h2>
+        {% if message == 'success' %}
+        <strong>You've successfully backed this fundraiser!</strong>
+        {% end %}
         <p>Launched: {{ fundraiser['launched'] }}</p>
+        {% if 'deadline' in fundraiser %}
         <p>Deadline: {{ fundraiser['deadline'] }}</p>
-        <p>Goal: {{ fundraiser['goal'] }}</p>
-        <p>Current Funding: {{ fundraiser['current_funding'] }}</p>
-        <p>Backing: {{ fundraiser['backers_count'] }}</p>
+        {% end %}
+        <p>Goal: ${{ fundraiser['goal'] }}</p>
+        <p>Current Funding: ${{ fundraiser['current_funding'] }}</p>
+        <p>Backers: {{ fundraiser['backers_count'] }}</p>
         <p>{{ fundraiser['description'] }}</p>
-    </div>
+        {% if fundraiser['status'] == 'Live' %}
+		<h4><a href="/fundraiser/back/{{fundraiser['slug']}}">Back this Fundraiser</a></h4>
+        {% elif fundraiser['status'] == 'Finished' %}
+        <p>This fundraiser has finished.</p>
+        {% end %}
+	</div>
 </div>
 {% end %}

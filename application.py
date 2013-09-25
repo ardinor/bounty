@@ -4,40 +4,134 @@ import tornado.ioloop
 import tornado.web
 import tornado.options
 import tornado.httpserver
-
-#import pymongo
+import logging
+import datetime
 import os
+import re
+
+#from tornado import gen
+#from math import ceil
+from passlib.hash import pbkdf2_sha256
+
+from secret import cookie_secret, pub_key
+#from config import FUNDRAISERS_PER_PAGE
+from config import DEBUG
 
 #Admin views
 from admin import AdminHandler
 from admin import AdminFundraiserHandler
+from admin import AdminUserEditHander
+from admin import AdminBackerDeleteHandler
+from admin import AdminBackerDetailHandler
+from admin import AdminUserListHandler
+from admin import AdminBackerListHandler
 
 from base import BaseHandler
 
 #Fundraiser views
+from fundraiser import FundraiserAllHandler
+from fundraiser import FundraiserInnerAllHandler
 from fundraiser import FundraiserIndexHandler
+from fundraiser import FundraiserInnerIndexHandler
+from fundraiser import PetitionIndexHandler
+from fundraiser import PetitionInnerIndexHandler
+from fundraiser import GroupPurchaseIndexHandler
+from fundraiser import GroupPurchaseInnerIndexHandler
 from fundraiser import FundraiserCreateHandler
 from fundraiser import FundraiserEditHandler
 from fundraiser import FundraiserDeleteHandler
 from fundraiser import FundraiserDetailHandler
+from fundraiser import FundraiserBackHandler
 from fundraiser import FundraiserDetailJSONHandler
 
+from error_handler import ErrorHandler
 
-class IndexHandler(BaseHandler):
+import uimodules.pagination
+
+# class IndexHandler(BaseHandler):
+
+#     def get(self):
+#         page = self.get_argument('page', None)
+#         if page:
+#             page = int(page)
+#         else:
+#             page = 1
+#         fundraisers_all = self.db.fundraisers.find({'status': 'Live'})
+#         if page > 1:
+#             recent = fundraisers_all.sort([('launched', -1)]) \
+#                 .skip(FUNDRAISERS_PER_PAGE*(int(page)-1)).limit(FUNDRAISERS_PER_PAGE)
+#         else:
+#             recent = fundraisers_all.sort([('launched', -1)]).limit(FUNDRAISERS_PER_PAGE)
+#         total = fundraisers_all.count()
+#         #total = int(ceil(float(total)/float(FUNDRAISERS_PER_PAGE)))
+#         self.render('index.html', recent=recent,
+#                     total=total, page=page,
+#                     page_size=FUNDRAISERS_PER_PAGE)
+
+
+class LoginHandler(BaseHandler):
 
     def get(self):
-        recent = self.db.fundraisers.find().sort('-launched').limit(15)
-        self.render('index.html', recent=recent)
+        error = self.get_argument('error', None)
+        self.render('login.html',
+                    error=error,)
+
+    @tornado.web.asynchronous
+    #@gen.coroutine
+    def post(self):
+        username = self.get_argument('username', None)
+        password = self.get_argument('password', None)
+        if username is not None and password is not None:
+            #user = yield self.get_authenticated_user()
+            logging_in_user = self.users_db.find_one({'username': username})
+            if logging_in_user:
+                if pbkdf2_sha256.verify(password, logging_in_user['password']):
+                    self.set_secure_cookie('bounty',
+                                           tornado.escape.json_encode({'username': username,
+                                                                       'rank': logging_in_user['rank']}),
+                                           httponly=True)
+                    self.redirect('/')
+                    return
+        error_msg = u'?error=' + tornado.escape.url_escape('Login incorrect.')
+        self.redirect('/login' + error_msg)
 
 
-class LoginHandler(tornado.web.RequestHandler):
+class LogoutHandler(BaseHandler):
 
     def get(self):
-        self.render('login.html')
+        self.clear_cookie('bounty')
+        self.redirect("/")
 
 
-class LogoutHandler(tornado.web.RequestHandler):
-    pass
+class CreateUserHandler(BaseHandler):
+
+    def get(self):
+        error = self.get_argument('error', None)
+        self.render('create_user.html',
+                    error=error)
+
+    def post(self):
+        username = self.get_argument('username', None)
+        username = re.sub('[^a-zA-Z0-9_\.]', '', username)
+        password = self.get_argument('password', None)
+        #validate email?
+        email = self.get_argument('email', None)
+        password = pbkdf2_sha256.encrypt(password)
+        if username is not None and password is not None and email is not None:
+            if self.users_db.find_one({'username': username}):
+                error_msg = u"?error=" + tornado.escape.url_escape("Login name already exists")
+                self.redirect('/create' + error_msg)
+            user = {'username': username,
+                    'password': password,
+                    'email': email,
+                    'created_at': datetime.datetime.utcnow(),
+                    'rank': 'user'}
+            self.users_db.save(user)
+            self.set_secure_cookie('bounty',
+                                   tornado.escape.json_encode({'username': username,
+                                                               'rank': user['rank']}),
+                                   httponly=True)
+            self.redirect("/")
 
 
 class Application(tornado.web.Application):
@@ -45,25 +139,40 @@ class Application(tornado.web.Application):
     def __init__(self):
 
         handlers = [
-                    (r'/', IndexHandler),
+                    (r'/', FundraiserAllHandler),
                     (r'/login', LoginHandler),
                     (r'/logout', LogoutHandler),
+                    #(r'/create', CreateUserHandler),
                     (r'/admin', AdminHandler),
+                    (r'/admin/user_list', AdminUserListHandler),
+                    (r'/admin/user/([^/]+)', AdminUserEditHander),
+                    (r'/admin/backer_list', AdminBackerListHandler),
+                    (r'/admin/backer/([^/]+)', AdminBackerDetailHandler),
+                    (r'/admin/backer/([^/]+)/delete', AdminBackerDeleteHandler),
                     (r'/admin/fundraiser/([^/]+)', AdminFundraiserHandler),
+                    (r'/a/all', FundraiserInnerAllHandler),
                     (r'/fundraiser', FundraiserIndexHandler),
+                    (r'/a/fundraiser', FundraiserInnerIndexHandler),
+                    (r'/petition', PetitionIndexHandler),
+                    (r'/a/petition', PetitionInnerIndexHandler),
+                    (r'/group_purchase', GroupPurchaseIndexHandler),
+                    (r'/a/group_purchase', GroupPurchaseInnerIndexHandler),
                     (r'/fundraiser/create', FundraiserCreateHandler),
                     (r'/fundraiser/([^/]+)/edit', FundraiserEditHandler),
                     (r'/fundraiser/([^/]+)/delete', FundraiserDeleteHandler),
                     (r'/fundraiser/([^/]+)', FundraiserDetailHandler),
+                    (r'/fundraiser/back/([^/]+)', FundraiserBackHandler),
                     (r'/fundraiser/([^/]+)/json', FundraiserDetailJSONHandler),
                    ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), 'templates'),
             static_path=os.path.join(os.path.dirname(__file__), 'static'),
-            debug=True,
+            debug=DEBUG,
             xsrf_cookies=True,
-            cookie_secret='SECRET_KEY_HERE',
+            #generate cookie secret: print base64.b64encode(uuid.uuid4().bytes + uuid.uuid4().bytes)
+            cookie_secret=cookie_secret,
             login_url='/login',
+            ui_modules=uimodules.pagination,
             )
 
         tornado.web.Application.__init__(self, handlers, **settings)
@@ -72,5 +181,7 @@ if __name__ == '__main__':
 
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(Application())
+    logging.info('Starting up')
     http_server.listen(8888)
+    tornado.web.ErrorHandler = ErrorHandler
     tornado.ioloop.IOLoop.instance().start()
