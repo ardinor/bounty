@@ -6,7 +6,11 @@
 <div class='row'>
     <div class='span6 offset2'>
         <form class='create_fundraiser' method='post' action=''>
+<<<<<<< HEAD
             {% module xsrf_form_html() %}
+=======
+            {% raw xsrf_form_html() %}
+>>>>>>> 40f9d6c3f37abd3346ccfa01b1c03802f2bd88de
             <legend>New Fundraiser</legend>
             <div>
                 <label>Title</label>
@@ -32,12 +36,17 @@
                 </div>
                 <label>Deadline</label>
                 <div id="datetimepicker1" name='deadline' class="input-append date">
+<<<<<<< HEAD
                     <input data-format="dd/MM/yyyy" type="text"></input>
+=======
+                    <input data-format="dd/MM/yyyy" type="text" required></input>
+>>>>>>> 40f9d6c3f37abd3346ccfa01b1c03802f2bd88de
                     <span class="add-on">
                         <i data-time-icon="icon-time" data-date-icon="icon-calendar">
                         </i>
                     </span>
                 </div>
+<<<<<<< HEAD
                 <input type='text' id='deadline' name='deadline' style="display:none">
                 <!-- <label>Description</label>
                 <textarea class="span5" rows="8" name='description' required></textarea> -->
@@ -51,6 +60,11 @@
                         Draft
                     </label>
                 </div>
+=======
+                <input type='text' id='deadline' name='deadline' >
+                <label>Description</label>
+                <textarea class="span5" rows="8" name='description' required></textarea>
+>>>>>>> 40f9d6c3f37abd3346ccfa01b1c03802f2bd88de
             </div>
             <div class='form-actions'>
                 <button type='submit' class='btn btn-primary'>Submit</button>

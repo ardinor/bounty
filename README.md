@@ -1,6 +1,7 @@
 ﻿Bounty
 ================================
 
+<<<<<<< HEAD
 A funding platform for PPAU
 
 ## Development Branch ##
@@ -47,6 +48,11 @@ Each project will have:
     Allow comments?
 
     Categories?
+=======
+Moved to the ppau repo
+
+https://github.com/ppau/bounty
+>>>>>>> 40f9d6c3f37abd3346ccfa01b1c03802f2bd88de
 
 
 Finish fundraiser editing handler

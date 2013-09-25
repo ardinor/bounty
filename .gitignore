@@ -166,4 +166,8 @@ pip-log.txt
 .sublime-project
 .sublime-workspace
 
+<<<<<<< HEAD
+=======
+pin_submit.js
+>>>>>>> 40f9d6c3f37abd3346ccfa01b1c03802f2bd88de
 secret.py
