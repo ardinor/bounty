@@ -2,11 +2,7 @@
 
 {% block title %}{{ fundraiser['title'] }} - Bounty{% end %}
 {% block extra_js %}<script src='https://test-api.pin.net.au/pin.js' type='text/javascript'></script>
-<<<<<<< HEAD
 <script type="text/javascript" src="{{ static_url("js/vendor/pin_post.js") }}"></script>{% end %}
-=======
-<script type="text/javascript" src="{{ static_url("js/vendor/pin_submit.js") }}"></script>{% end %}
->>>>>>> 40f9d6c3f37abd3346ccfa01b1c03802f2bd88de
 
 {% block body %}
 <div class="row">
@@ -23,11 +19,7 @@
     </div>
 </div>
 <form action='' class='pin' method='post'>
-<<<<<<< HEAD
     {% module xsrf_form_html() %}
-=======
-    {% raw xsrf_form_html() %}
->>>>>>> 40f9d6c3f37abd3346ccfa01b1c03802f2bd88de
     <div class="row">
         <div class="span3 offset2">
             <label>How much?</label>
@@ -67,7 +59,6 @@
               the browser from submitting them to your server
             -->
             <label for='cc-number'>Credit Card Number</label>
-<<<<<<< HEAD
             <div class='control-group'>
               <div class='controls'>
                 <input type='text' id='cc-number' required>
@@ -95,15 +86,6 @@
                 <span id='cc-year-error' class='help-inline' style='display:none'>Please correct the error</span>
               </div>
             </div>
-=======
-            <input id='cc-number' type='text' required/>
-            <label for='cc-name'>Name on Card</label>
-            <input id='cc-name' type='text' required/>
-            <label for='cc-expiry-month'>Expiry Month</label>
-            <input id='cc-expiry-month' required/>
-            <label for='cc-expiry-year'>Expiry Year</label>
-            <input id='cc-expiry-year' required/>
->>>>>>> 40f9d6c3f37abd3346ccfa01b1c03802f2bd88de
             <label for='cc-cvc'>CVC</label>
             <input id='cc-cvc' required/>
           </fieldset>

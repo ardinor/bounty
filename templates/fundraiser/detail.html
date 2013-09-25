@@ -12,24 +12,16 @@
         <p>Launched: {{ fundraiser['launched'] }}</p>
         {% if 'deadline' in fundraiser %}
         <p>Deadline: {{ fundraiser['deadline'] }}</p>
-<<<<<<< HEAD
         {% end %}
         <p>Goal: ${{ fundraiser['goal'] }}</p>
         <p>Current Funding: ${{ fundraiser['current_funding'] }}</p>
         <p>Backers: {{ fundraiser['backers_count'] }}</p>
         <p>{{ fundraiser['description'] }}</p>
         {% if fundraiser['status'] == 'Live' %}
-		<h4><a href="/fundraiser/back/{{fundraiser['slug']}}">Back this Fundraiser</a></h4>
+        <h4><a href="/fundraiser/back/{{fundraiser['slug']}}">Back this Fundraiser</a></h4>
         {% elif fundraiser['status'] == 'Finished' %}
         <p>This fundraiser has finished.</p>
         {% end %}
-=======
-        <p>Goal: {{ fundraiser['goal'] }}</p>
-        <p>Current Funding: {{ fundraiser['current_funding'] }}</p>
-        <p>Backers: {{ fundraiser['backers_count'] }}</p>
-        <p>{{ fundraiser['description'] }}</p>
-		<h4><a href="/fundraiser/back/{{fundraiser['slug']}}">Back this Fundraiser</a></h4>
->>>>>>> 40f9d6c3f37abd3346ccfa01b1c03802f2bd88de
-	</div>
+    </div>
 </div>
 {% end %}

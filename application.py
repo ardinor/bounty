@@ -17,8 +17,6 @@ from secret import cookie_secret, pub_key
 #from config import FUNDRAISERS_PER_PAGE
 from config import DEBUG
 
-import logging
-
 #Admin views
 from admin import AdminHandler
 from admin import AdminFundraiserHandler
@@ -44,10 +42,6 @@ from fundraiser import FundraiserEditHandler
 from fundraiser import FundraiserDeleteHandler
 from fundraiser import FundraiserDetailHandler
 from fundraiser import FundraiserBackHandler
-<<<<<<< HEAD
-=======
-from fundraiser import FundraiserBackSuccessHandler
->>>>>>> 40f9d6c3f37abd3346ccfa01b1c03802f2bd88de
 from fundraiser import FundraiserDetailJSONHandler
 
 from error_handler import ErrorHandler
@@ -168,10 +162,6 @@ class Application(tornado.web.Application):
                     (r'/fundraiser/([^/]+)/delete', FundraiserDeleteHandler),
                     (r'/fundraiser/([^/]+)', FundraiserDetailHandler),
                     (r'/fundraiser/back/([^/]+)', FundraiserBackHandler),
-<<<<<<< HEAD
-=======
-                    (r'/fundraiser/([^/]+)/success', FundraiserBackSuccessHandler),
->>>>>>> 40f9d6c3f37abd3346ccfa01b1c03802f2bd88de
                     (r'/fundraiser/([^/]+)/json', FundraiserDetailJSONHandler),
                    ]
         settings = dict(
