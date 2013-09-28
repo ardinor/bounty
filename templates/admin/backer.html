@@ -71,17 +71,26 @@
                     {% end %}
                 </tbody>
             </table>
-
-            <p><strong>Message to backer:</strong></p>
-            <select name='status' class="input-small" required>
-                <option value="">Status</option>
-                <option>Shipped</option>
-                <option></option>
-            </select>
-            <textarea class="span5" rows="8" name='message'></textarea>
         </div>
         <div class="row">
-        <p><a class="btn btn-primary" href=""> Save</a></p>
+            <form class='backer_message' method='post' action=''>
+                <legend><strong>Status Update</strong></legend>
+                <label>Status</label>
+                <select name='status' class="input-small">
+                    <option value="">Status</option>
+                    {% if fundraiser['type'] == 'Group Purchase' %}
+                    <option>Shipped</option>
+                    {% end %}
+                    <option>Placeholder</option>
+                </select>
+                <div>
+                    <label>Message</label>
+                    <textarea class="span5" rows="8" name='message'></textarea>
+                </div>
+                <div class='form-actions'>
+                    <button type='submit' class='btn btn-primary'>Save</button>
+                </div>
+            </form>
         </div>
     </div>
 {% end %}
