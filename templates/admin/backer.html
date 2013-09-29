@@ -81,12 +81,13 @@
                     {% if fundraiser['type'] == 'Group Purchase' %}
                     <option>Shipped</option>
                     {% end %}
-                    <option>Placeholder</option>
+                    <option>Error</option>
                 </select>
                 <div>
                     <label>Message</label>
                     <textarea class="span5" rows="8" name='message'></textarea>
                 </div>
+                <input type="checkbox" name="sendemail" value="True">Send email to backer<br>
                 <div class='form-actions'>
                     <button type='submit' class='btn btn-primary'>Save</button>
                 </div>
