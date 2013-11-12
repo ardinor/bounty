@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-fundraiser = Blueprint('fundraiser', __name__, template_folder='templates/fundraisers')
+fundraiser_bp = Blueprint('fundraiser', __name__, template_folder='templates')
 
-@fundraiser.route('/')
+@fundraiser_bp.route('/')
 def index():

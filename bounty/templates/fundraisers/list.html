@@ -1,0 +1,26 @@
+{% extends "../base.html" %}
+
+{% block title %}{{ fundraiser_type }}s - Bounty{% end %}
+
+{% block body %}
+
+        <h2>{{ fundraiser_type }}s</h2>
+        <hr>
+
+        <div class="campaigns">
+
+            {% for i, fundraiser in enumerate(recent) %}
+            <div class="campaign">
+                <div class="title">
+                    <a href="{{ url_for('admin.detail', slug=fundraiser.slug) }}">{{ fundraiser.title }}</a>
+                </div>
+                <div class="tail">
+                    <i class="icon-user"></i> <strong>{{ fundraiser.backers_count }}</strong> donors
+
+                    <a href="{{ url_for('admin.detail', slug=fundraiser.slug) }}" class="btn btn-small pull-right">Read more <i class="icon-chevron-right"></i></a>
+                </div>
+            </div>
+            {% end %}
+        </div>
+
+{% end %}
