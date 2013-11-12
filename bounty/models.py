@@ -1,6 +1,6 @@
 from bounty import db
 
-from settings import ROLE_USER
+from bounty.settings import ROLE_USER
 
 class Fundraiser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
