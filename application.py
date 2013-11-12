@@ -25,6 +25,7 @@ from admin import AdminBackerDeleteHandler
 from admin import AdminBackerDetailHandler
 from admin import AdminUserListHandler
 from admin import AdminBackerListHandler
+from admin import AdminBackerPostMessageHandler
 
 from base import BaseHandler
 
@@ -47,7 +48,6 @@ from fundraiser import FundraiserDetailJSONHandler
 from error_handler import ErrorHandler
 
 import uimodules.pagination
-
 
 # class IndexHandler(BaseHandler):
 
@@ -143,13 +143,14 @@ class Application(tornado.web.Application):
                     (r'/', FundraiserAllHandler),
                     (r'/login', LoginHandler),
                     (r'/logout', LogoutHandler),
-                    (r'/create', CreateUserHandler),
+                    #(r'/create', CreateUserHandler),
                     (r'/admin', AdminHandler),
                     (r'/admin/user_list', AdminUserListHandler),
                     (r'/admin/user/([^/]+)', AdminUserEditHander),
                     (r'/admin/backer_list', AdminBackerListHandler),
                     (r'/admin/backer/([^/]+)', AdminBackerDetailHandler),
                     (r'/admin/backer/([^/]+)/delete', AdminBackerDeleteHandler),
+                    (r'/a/admin/backer/message', AdminBackerPostMessageHandler),
                     (r'/admin/fundraiser/([^/]+)', AdminFundraiserHandler),
                     (r'/a/all', FundraiserInnerAllHandler),
                     (r'/fundraiser', FundraiserIndexHandler),

@@ -48,11 +48,37 @@
                 <strong>Error Message:</strong>: {{ backer['error_message'] }}
             </div>
             {% end %}
-            {% if 'status' in backer %}
-            <p><strong>Status</strong>: {{ backer['status'] }}</p>
-            {% end %}
+            <table class="table table-striped">
+                <thead>
+                    <tr colspan="3">
+                        <th>Message Log</th>
+                    </tr>
+                    <tr>
+                      <th>Date</th>
+                      <th>Status</th>
+                      <th>Message</th>
+                      <th>Staff</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in backer['messages'] %}
+                    <tr>
+                        <td>i['date']</td>
+                        <td>i['status']</td>
+                        <td>i['message']</td>
+                        <td>i['staff']</td>
+                    </tr>
+                    {% end %}
+                </tbody>
+            </table>
+
             <p><strong>Message to backer:</strong></p>
-            <textarea class="span5" rows="8" name='message'>{% if 'message' in backer %}{{ backer['message'] }}{% end %}</textarea>
+            <select name='status' class="input-small" required>
+                <option value="">Status</option>
+                <option>Shipped</option>
+                <option></option>
+            </select>
+            <textarea class="span5" rows="8" name='message'></textarea>
         </div>
         <div class="row">
         <p><a class="btn btn-primary" href=""> Save</a></p>

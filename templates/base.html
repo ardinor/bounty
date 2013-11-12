@@ -17,9 +17,6 @@
     <link rel="stylesheet" href="/static/css/bounty.css" type="text/css">
     <link rel='shortcut icon' type='image/x-icon' href='/static/img/favicon.ico'>
     {% end %}
-
-
-
 	<style>
          textarea { width: 600px; }
          body { background-color: #0073ae; padding: 0; }
@@ -30,7 +27,6 @@
            box-shadow: 0px 0px 25px black;
          }
        </style>
-
   </head>
   <body>
     <!--<div class="navbar navbar-fixed-top">
@@ -97,12 +93,10 @@
 
         <div class="well" style="padding: 10px;">
             <div id="nav_buttons" class="btn-group">
-                {# <a id="load_all" class="btn active">All</a> #}
+                <a id="load_all" class="btn active">All</a>
                 <a id="load_fundraisers" class="btn" href="/fundraiser" >Fundraisers</a>
-                {#
                 <a id="load_petitions" class="btn">Petitions</a>
                 <a id="load_group" class="btn">Group Purchases</a>
-                 #}
             </div>
                 {% if current_user %}
             <div class="btn-group pull-right">
