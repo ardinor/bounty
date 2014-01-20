@@ -1,6 +1,6 @@
 from bounty import db
 
-from bounty.settings import ROLE_USER
+from bounty.settings import ROLE_USER, STATUS_DRAFT, STATUS_LIVE, STATUS_FINISHED
 
 class Fundraiser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -8,9 +8,9 @@ class Fundraiser(db.Model):
     slug = db.Column(db.String(50), unique=True)
     goal = db.Column(db.Float)
     #description = db.Column(db.Text)
-    status = db.Column(db.String(50))
+    status = db.Column(db.SmallInteger, default=STATUS_DRAFT)
     template = db.Column(db.String(50))
-    fundraiser_type = db.Column(db.String(50))
+    fundraiser_type = db.Column(db.SmallInteger)
     deadline = db.Column(db.DateTime)
     launched = db.Column(db.DateTime)
     current_funding = db.Column(db.Float)
@@ -18,6 +18,18 @@ class Fundraiser(db.Model):
 
     def __repr__(self):
         return '<Fundraiser {}>'.format(self.title)
+
+    def is_published(self):
+        if self.status == 'Live':
+            return True
+        else:
+            return False
+
+    def has_template(self):
+        if self.template:
+            return True
+        else:
+            return False
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -47,6 +59,7 @@ class Backer(db.Model):
     ip_address = db.Column(db.String(45))
     amount = db.Column(db.Float)
     created_at = db.Column(db.DateTime)
+    backed = db.Column(db.Integer, db.ForeignKey('fundraiser.id'))
     messages = db.relationship('BackMessage', backref='backer',
                                lazy='dynamic')
 

@@ -14,6 +14,6 @@ def create():
 def login():
     pass
 
-@user_bp.route('/lougout/')
+@user_bp.route('/logout/')
 def logout():
     pass
