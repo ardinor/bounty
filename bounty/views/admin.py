@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, abort, redirect
+from flask import Blueprint, render_template, abort, redirect, url_for
 
 from bounty import db
 from bounty.models import Fundraiser, User, Backer
@@ -74,12 +74,26 @@ def fundraiser_create():
         return redirect(url_for('users.login'))
     form = FundraiserCreateForm()
     if form.validate_on_submit():
-    pass
+        #figure out other fields
+        fundraiser = Fundraiser(title=form.title.data,
+                                slug=form.slug.data,
+                                goal=form.goal.data,
+                                )
+        db.session.add(fundraiser)
+        db.session.commit()
+        return redirect(url_for('admin.fundraiser', fundraiser=fundraiser.name))
+
+    return render_template('admin/fundraiser_create.html')
 
 @admin_bp.route('/fundraiser/<name>/delete', methods=['POST'])
 def fundraiser_delete(name):
-    pass
+    fundraiser = Fundraiser.query.filter_by(name=name).first_or_404()
+    db.session.delete(fundraiser)
+    db.session.commit()
+    return redirect(url_for('admin.fundraiser_list'))
+
 
 @admin_bp.route('/fundraiser/<name>/edit', methods=['GET', 'POST'])
 def fundraiser_edit(name):
+    fundraiser = Fundraiser.query.filter_by(name=name).first_or_404()
     pass
