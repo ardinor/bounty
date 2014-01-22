@@ -41,7 +41,7 @@ class User(db.Model):
     email = db.Column(db.String(200), unique=True)
     joined_at = db.Column(db.DateTime)
     rank = db.Column(db.SmallInteger, default = ROLE_USER)
-    backer_messages = db.relationship('BackMessage', backref='user',
+    backer_messages = db.relationship('BackerMessage', backref='user',
                                       lazy='dynamic')
 
     def __repr__(self):
@@ -76,7 +76,7 @@ class Backer(db.Model):
     amount = db.Column(db.Float)
     created_at = db.Column(db.DateTime)
     backed = db.Column(db.Integer, db.ForeignKey('fundraiser.id'))
-    messages = db.relationship('BackMessage', backref='backer',
+    messages = db.relationship('BackerMessage', backref='backer',
                                lazy='dynamic')
 
 class BackerMessage(db.Model):

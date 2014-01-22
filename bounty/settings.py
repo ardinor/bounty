@@ -7,7 +7,7 @@ DEBUG = True
 SECRET_KEY = 'SecretKeyGoesHere'
 
 #Just use sqllite for testing
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+SQLALCHEMY_DATABASE_URI = 'sqlite:////' + os.path.join(basedir, 'app.db')
 
 ROLE_ADMIN = 2
 ROLE_USER = 1
