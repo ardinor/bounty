@@ -3,7 +3,7 @@ from flask.ext.login import login_user, logout_user
 from passlib.hash import pbkdf2_sha256
 import datetime
 
-from bounty import lm
+from bounty import lm, db
 from bounty.models import User
 from bounty.forms import LoginForm, CreateUserForm
 
@@ -22,7 +22,8 @@ def create():
                     password=hashed_pw,
                     email=form.email.data,
                     joined_at=datetime.datetime.now())
-        user.save()
+        db.session.add(user)
+        db.session.commit()
         login_user(user)
         flash('User created successfully.')
         return redirect(request.args.get('next') or url_for('fundraiser.index'))

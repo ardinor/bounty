@@ -1,7 +1,8 @@
-from flask.ext.wtf import Form, TextField, BooleanField, PasswordField, \
+from flask.ext.wtf import Form
+from wtforms import TextField, BooleanField, PasswordField, \
     TextAreaField
-from flask.ext.wtf.html5 import EmailField
-from flask.ext.wtf import Required, Length, EqualTo
+from wtforms.fields.html5 import EmailField
+from wtforms.validators import Required, Length, EqualTo
 
 
 class LoginForm(Form):

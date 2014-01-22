@@ -1,6 +1,9 @@
-from bounty import db
+from flask.ext.sqlalchemy import SQLAlchemy
 
+from bounty import app
 from bounty.settings import ROLE_USER, STATUS_DRAFT, STATUS_LIVE, STATUS_FINISHED
+
+db = SQLAlchemy(app)
 
 class Fundraiser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
