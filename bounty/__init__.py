@@ -29,3 +29,8 @@ app.register_blueprint(user_bp, url_prefix='/user')
 lm = LoginManager()
 lm.setup_app(app)
 lm.login_view = 'user.login'
+lm.session_protection = "strong"
+
+@lm.user_loader
+def load_user(userid):
+    return User.get(userid)
