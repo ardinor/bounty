@@ -5,6 +5,7 @@ from bounty.settings import ROLE_USER, STATUS_DRAFT, STATUS_LIVE, STATUS_FINISHE
 
 db = SQLAlchemy(app)
 
+
 class Fundraiser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), unique=True)
@@ -34,13 +35,28 @@ class Fundraiser(db.Model):
         else:
             return False
 
+
+class Role(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(80), unique=True)
+    description = db.Column(db.String(255))
+
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True)
-    password = db.Column(db.String(200))
+    password = db.Column(db.String(255))
     email = db.Column(db.String(200), unique=True)
     joined_at = db.Column(db.DateTime)
     rank = db.Column(db.SmallInteger, default = ROLE_USER)
+    ##Flask-Security stuff
+    last_login_at = db.Column(db.DateTime)
+    current_login_at = db.Column(db.DateTime)
+    last_login_ip = db.Column(db.String(45))
+    current_login_ip = db.Column(db.String(45))
+    login_count = db.Column(db.Integer)
+    active = db.Column(db.Boolean())
+    ##
     backer_messages = db.relationship('BackerMessage', backref='user',
                                       lazy='dynamic')
 
@@ -78,6 +94,7 @@ class Backer(db.Model):
     backed = db.Column(db.Integer, db.ForeignKey('fundraiser.id'))
     messages = db.relationship('BackerMessage', backref='backer',
                                lazy='dynamic')
+
 
 class BackerMessage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
