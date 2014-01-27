@@ -10,7 +10,6 @@ app = Flask(__name__)
 app.config.from_object('bounty.settings')
 #app.debug = DEBUG
 #app.secret_key = SECRET_KEY
-print(app.config['SQLALCHEMY_DATABASE_URI'])
 
 manager = Manager(app)
 
