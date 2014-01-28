@@ -1,6 +1,6 @@
 {% extends "../base.html" %}
 
-{% block title %}{{ fundraiser_type }}s - Bounty{% end %}
+{% block title %}{{ fundraiser_type }}s - Bounty{% endblock %}
 
 {% block body %}
 
@@ -20,7 +20,7 @@
                     <a href="{{ url_for('admin.detail', slug=fundraiser.slug) }}" class="btn btn-small pull-right">Read more <i class="icon-chevron-right"></i></a>
                 </div>
             </div>
-            {% end %}
+            {% endfor %}
         </div>
 
-{% end %}
+{% endblock %}

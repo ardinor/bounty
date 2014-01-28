@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>{% block title %}Bounty{% end %}</title>
+    <title>{% block title %}Bounty{% endblock %}</title>
     <meta name="viewport" content="width=device-width">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     {% if DEBUG %}
@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="/static/css/bootstrap-datetimepicker.min.css" type="text/css">
     <link rel="stylesheet" href="/static/css/bounty.css" type="text/css">
     <link rel='shortcut icon' type='image/x-icon' href='/static/img/favicon.ico'>
-    {% end %}
+    {% endif %}
 	<style>
          textarea { width: 600px; }
          body { background-color: #0073ae; padding: 0; }
@@ -64,7 +64,7 @@
                 <a id="divLogin" href="/loginmodal" data-toggle="modal" style="display: none">{{ _('Login') }}</a> -->
                 <a href="{{ '/login?next=' + url_escape(request.uri) }}">Login</a>
             </p>
-            {% end %}
+            {% endif %}
             #}
 
             {#
@@ -81,12 +81,12 @@
               <li id="grouppurchase_tab" {% try %}{% if fundraiser_type and fundraiser_type=='Group Purchase' %}class="active"{% else %}class=""{% end %}{% except %} {% end %}>
                 <a href="/group_purchase">Group Purchases</a>
               </li>
-              {% if current_user and current_user['rank'] in ('staff', 'admin') %}
+              {% if g.user.is_authenticated() and current_user['rank'] in ('staff', 'admin') %}
               <li class="divider-vertical"></li>
               <li id="admin_tab" class="">
                 <a href="/admin">Admin Panel</a>
               </li>
-              {% end %}
+              {% endif %}
             </ul>
           </div> #}
 
@@ -98,20 +98,20 @@
                 <a id="load_petitions" class="btn">Petitions</a>
                 <a id="load_group" class="btn">Group Purchases</a>
             </div>
-                {% if current_user %}
+                {% if g.user.is_authenticated() %}
             <div class="btn-group pull-right">
-                {% if current_user['rank'] in ('staff', 'admin') %}
+                {% if g.has_role('staff') or g.has_role('admin') %}
                 <a class="btn" href="/admin">Admin</a>
-                {% end %}
+                {% endif %}
                 <a class="btn" href="/logout">Logout</a>
 
             </div>
-                {% end %}
+                {% endif %}
 
         </div>
 
 		    {% block body %}
-		    {% end %}
+		    {% endblock %}
 
 
         </div>
@@ -130,8 +130,8 @@
     <script type="text/javascript" src="/static/js/vendor/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript" src="/static/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     <script type="text/javascript" src="/static/js/bounty.js"></script>
-    {% end %}
+    {% endif %}
     {% block extra_js %}
-    {% end %}
+    {% endblock %}
   </body>
 </html>

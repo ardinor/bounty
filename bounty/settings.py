@@ -9,6 +9,10 @@ SECRET_KEY = 'SecretKeyGoesHere'
 #Just use sqllite for testing
 SQLALCHEMY_DATABASE_URI = 'sqlite:////' + os.path.join(basedir, 'app.db')
 
+#Flask-Security stuff
+SECURITY_PASSWORD_HASH = 'bcrypt'
+SECURITY_TRACKABLE = True
+
 ROLE_ADMIN = 2
 ROLE_USER = 1
 
@@ -22,3 +26,4 @@ STATUS_FINISHED = 3
 
 FUNDRAISERS_PER_PAGE = 6
 USERS_PER_PAGE = 20
+

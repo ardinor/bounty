@@ -2,6 +2,7 @@ from flask import Flask
 
 from flask.ext.script import Manager
 from flask.ext.login import LoginManager
+from flask.ext.security import Security, SQLAlchemyUserDatastore
 
 #from bounty.settings import DEBUG, SECRET_KEY
 from bounty.moment_js import moment_js
@@ -27,3 +28,6 @@ from bounty.views import admin, fundraisers, users
 app.register_blueprint(fundraisers.fundraiser_bp, url_prefix='/')
 app.register_blueprint(admin.admin_bp, url_prefix='/admin')
 app.register_blueprint(users.user_bp, url_prefix='/user')
+
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+security = Security(app, user_datastore)

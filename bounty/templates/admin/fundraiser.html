@@ -1,0 +1,86 @@
+{% extends "admin_base.html" %}
+
+{% block title %}{{ fundraiser['title'] }} - Bounty Admin{% endblock %}
+
+{% block admin_body %}
+
+    <div class="span7">
+        <div class="row">
+            <div class="span7">
+            <h3>{{ fundraiser['title'] }}<a class="btn btn-info btn-small pull-right" href="/fundraiser/{{ fundraiser['slug'] }}/edit">Edit</a></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span3">
+                <strong>Launched</strong>: {{ fundraiser['launched'] }}
+            </div>
+            {% if 'deadline' in fundraiser %}
+            <div class="span3">
+                <strong>Deadline</strong>: {{ fundraiser['deadline'] }}
+            </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="span3">
+                {% if fundraiser['type'] == 'Petition' %}
+                <strong>Goal</strong>: {{ int(fundraiser['goal']) }} signatures
+                {% else %}
+                <strong>Goal</strong>: ${{ '{:.2f}'.format(fundraiser['goal']) }}
+                {% endif %}
+            </div>
+            {% if fundraiser['type'] != 'Petition' %}
+            <div class="span3">
+                <strong>Current Funding</strong>: ${{ '{:.2f}'.format(fundraiser['current_funding']) }}
+            </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="span7">
+                <strong>Current backers</strong>: {{ fundraiser['backers_count'] }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="span7">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Username</th>
+                          <th>IP</th>
+                          {% if fundraiser['type'] != 'Petition' %}
+                          <th>Amount</th>
+                          {% end %}
+                          <th>Created at</th>
+                          <th>Status</th>
+                          <th>Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for i, backer in enumerate(fundraiser_backers) %}
+                    <tr {% if 'error_message' in backer %}class="error"{% endif %}>
+                      <td>{{ i }}</td>
+                      <td><a href="/admin/backer/{{ backer['_id'] }}">{{ backer['user'] }}</a></td>
+                      <td>{{ backer['ip_address'] }}</td>
+                      {% if fundraiser['type'] != 'Petition' %}
+                      <td>${{ '{:.2f}'.format(backer['amount']) }}</td>
+                      {% endif %}
+                      <td>{{ backer['created_at'] }}</td>
+                      <td>{{ backer['status'] }}</td>
+                      {% if 'status_message' in backer or 'error_message' in backer %}
+                        {% if 'status_message' in backer %}
+                            <td>{{ backer['status_message'] }}</td>
+                        {% endif %}
+                        {% if 'error_message' in backer %}
+                            <td>{{ backer['error_message'] }}</td>
+                        {% endif %}
+                      {% else %}
+                            <td></td>
+                      {% endif %}
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
