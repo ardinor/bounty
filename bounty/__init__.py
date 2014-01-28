@@ -24,7 +24,7 @@ lm.session_protection = "strong"
 
 from bounty.models import *
 
-from bounty.views import admin, fundraisers, users
+from bounty.views import admin, base, fundraisers, users
 
 app.register_blueprint(fundraisers.fundraiser_bp, url_prefix='/')
 app.register_blueprint(admin.admin_bp, url_prefix='/admin')
