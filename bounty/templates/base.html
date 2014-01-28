@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     {% if DEBUG %}
-    <link rel="stylesheet" href="{{ static_url("css/bootstrap.min.css") }}" type="text/css">
-    <link rel="stylesheet" href="{{ static_url("css/bootstrap-responsive.min.css") }}" type="text/css">
-    <link rel="stylesheet" href="{{ static_url("css/bootstrap-datetimepicker.min.css") }}" type="text/css">
-    <link rel="stylesheet" href="{{ static_url("css/bounty.css") }}" type="text/css">
-    <link rel='shortcut icon' type='image/x-icon' href='{{ static_url("img/favicon.ico") }}'>
+    {% assets "css_all" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}" type="text/css">
+    {% endassets %}
+    {% assets "fav_icon" %}
+    <link rel='shortcut icon' type='image/x-icon' href='{{ ASSET_URL }}'>
+    {% endassets %}
     {% else %}
     <link rel="stylesheet" href="/static/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/static/css/bootstrap-responsive.min.css" type="text/css">
@@ -119,11 +120,9 @@
 
     <script>var pin_public_key = '{{ pin_public_key }}';</script>
     {% if DEBUG %}
-    <script type="text/javascript" src="{{ static_url("js/vendor/jquery-1.9.1.min.js") }}"></script>
-    <script type="text/javascript" src="{{ static_url("js/vendor/bootstrap.min.js") }}"></script>
-    <script type="text/javascript" src="{{ static_url("js/vendor/bootstrap-datetimepicker.min.js") }}"></script>
-    <script type="text/javascript" src="{{ static_url("js/vendor/modernizr-2.6.2-respond-1.1.0.min.js") }}"></script>
-    <script type="text/javascript" src="{{ static_url("js/bounty.js") }}"></script>
+    {% assets "js_all" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
     {% else %}
     <script type="text/javascript" src="/static/js/vendor/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/static/js/vendor/bootstrap.min.js"></script>
